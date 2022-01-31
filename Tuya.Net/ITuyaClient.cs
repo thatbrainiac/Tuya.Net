@@ -26,7 +26,7 @@ namespace Tuya.Net
         /// </summary>
         /// <param name="userId">ID of the user.</param>
         /// <param name="accessTokenInfo">An <see cref="AccessTokenInfo"/> instance containing the access token string.</param>
-        /// <returns></returns>
+        /// <returns>A <see cref="TuyaUser"/> containing user information.</returns>
         public Task<TuyaUser?> GetUserInfoAsync(string userId, AccessTokenInfo accessTokenInfo);
     }
 }
