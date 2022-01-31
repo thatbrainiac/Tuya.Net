@@ -51,8 +51,8 @@ namespace Tuya.Net.Api
         internal async Task<T?> ReadAsync<T>(HttpMethod method, string path, AccessTokenInfo? accessTokenInfo = null, string payload = "")
         {
             var accessToken = accessTokenInfo == null ? string.Empty : accessTokenInfo.TokenString!;
-            var now = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
-            var sign = EncryptionUtils.CalculateSignature(credentials, method, path, payload, timestamp: now, accessToken, payload);
+            var currentTimeMillis = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
+            var sign = EncryptionUtils.CalculateSignature(credentials, method, path, payload, currentTimeMillis, accessToken, payload);
 
             var request = new HttpRequestMessage()
             {
@@ -60,7 +60,7 @@ namespace Tuya.Net.Api
                 RequestUri = new Uri(path, UriKind.Relative),
             };
 
-            request.Headers.Add("t", now);
+            request.Headers.Add("t", currentTimeMillis);
             request.Headers.Add("sign", sign);
 
             if (accessTokenInfo != null)
@@ -94,12 +94,12 @@ namespace Tuya.Net.Api
                 var deserializedResponse = JsonConvert.DeserializeObject<TuyaResponse<T>>(responseContent);
                 if (deserializedResponse == null)
                 {
-                    throw new ArgumentNullException(nameof(deserializedResponse));
+                    throw new ArgumentNullException(nameof(responseContent));
                 }
 
                 if (deserializedResponse.IsSuccess == null)
                 {
-                    throw new ArgumentNullException(nameof(deserializedResponse.IsSuccess));
+                    throw new ArgumentNullException(nameof(responseContent));
                 }
 
                 if ((bool)!deserializedResponse.IsSuccess)

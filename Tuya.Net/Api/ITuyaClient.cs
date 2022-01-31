@@ -11,7 +11,7 @@ namespace Tuya.Net.Api
         /// Get API access token.
         /// </summary>
         /// <returns>An <see cref="AccessTokenInfo"/> instance containing information about the access token.</returns>
-        public Task<AccessTokenInfo?> GetAccessTokenAsync();
+        public Task<AccessTokenInfo?> GetAccessTokenInfoAsync();
 
         /// <summary>
         /// Get Tuya device information.

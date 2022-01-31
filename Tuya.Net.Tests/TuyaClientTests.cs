@@ -47,7 +47,7 @@ namespace Tuya.Net.Tests
             };
 
             client = new TuyaClient(config["TuyaApiUrl"], tuyaCreds);
-            accessTokenInfo = await client.GetAccessTokenAsync();
+            accessTokenInfo = await client.GetAccessTokenInfoAsync();
             Assert.IsNotNull(accessTokenInfo);
         }
 
@@ -60,7 +60,7 @@ namespace Tuya.Net.Tests
         {
             Assert.DoesNotThrowAsync(async () =>
             {
-                var token = await client.GetAccessTokenAsync();
+                var token = await client.GetAccessTokenInfoAsync();
                 Assert.IsNotNull(token);
             });
         }

@@ -1,7 +1,8 @@
-﻿using Tuya.Net.Data;
+﻿using Tuya.Net.Api;
+using Tuya.Net.Data;
 using Tuya.Net.Security;
 
-namespace Tuya.Net.Api
+namespace Tuya.Net
 {
     /// <summary>
     /// Tuya Client wrapper class.
@@ -9,7 +10,7 @@ namespace Tuya.Net.Api
     public class TuyaClient : ITuyaClient
     {
         /// <summary>
-        /// An instance of <see cref="tuyaApiClient"/>.
+        /// An instance of <see cref="TuyaApiClient"/>.
         /// </summary>
         private readonly TuyaApiClient tuyaApiClient;
 
@@ -24,7 +25,7 @@ namespace Tuya.Net.Api
         }
 
         /// <inheritdoc />
-        public async Task<AccessTokenInfo?> GetAccessTokenAsync()
+        public async Task<AccessTokenInfo?> GetAccessTokenInfoAsync()
         {
             return await tuyaApiClient.ReadAsync<AccessTokenInfo?>(HttpMethod.Get, "/v1.0/token?grant_type=1");
         }
