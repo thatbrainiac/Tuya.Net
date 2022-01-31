@@ -13,12 +13,12 @@ namespace Tuya.Net.Api
         /// <summary>
         /// HttpClient instance.
         /// </summary>
-        private readonly HttpClient HttpClient;
+        private readonly HttpClient httpClient;
 
         /// <summary>
         /// Tuya API client id.
         /// </summary>
-        private readonly ITuyaCredentials Credentials;
+        private readonly ITuyaCredentials credentials;
 
         /// <summary>
         /// Creates a new instance of the <see cref="TuyaApiClient"/> class.
@@ -27,8 +27,8 @@ namespace Tuya.Net.Api
         /// <param name="credentials">Tuya API credentials.</param>
         public TuyaApiClient(string baseAddress, ITuyaCredentials credentials)
         {
-            Credentials = credentials;
-            HttpClient = new HttpClient()
+            this.credentials = credentials;
+            httpClient = new HttpClient()
             {
                 BaseAddress = new Uri(baseAddress),
                 DefaultRequestHeaders =
@@ -45,13 +45,14 @@ namespace Tuya.Net.Api
         /// <typeparam name="T">The object type to be deserialized to.</typeparam>
         /// <param name="method">The <see cref="HttpMethod"/> used.</param>
         /// <param name="path">Endpoint path.</param>
+        /// <param name="accessTokenInfo">Access token information.</param>
         /// <param name="payload">Request payload.</param>
         /// <returns>A deserialized <typeparamref name="T"/> object.</returns>
         internal async Task<T?> ReadAsync<T>(HttpMethod method, string path, AccessTokenInfo? accessTokenInfo = null, string payload = "")
         {
             var accessToken = accessTokenInfo == null ? string.Empty : accessTokenInfo.TokenString!;
             var now = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
-            var sign = EncryptionUtils.CalculateSignature(Credentials, method, path, payload, timestamp: now, accessToken, payload);
+            var sign = EncryptionUtils.CalculateSignature(credentials, method, path, payload, timestamp: now, accessToken, payload);
 
             var request = new HttpRequestMessage()
             {
@@ -67,7 +68,7 @@ namespace Tuya.Net.Api
                 request.Headers.Add("access_token", accessToken);
             }
 
-            var response = await HttpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -93,12 +94,12 @@ namespace Tuya.Net.Api
                 var deserializedResponse = JsonConvert.DeserializeObject<TuyaResponse<T>>(responseContent);
                 if (deserializedResponse == null)
                 {
-                    throw new ArgumentNullException("Deserialized response was null.");
+                    throw new ArgumentNullException(nameof(deserializedResponse));
                 }
 
                 if (deserializedResponse.IsSuccess == null)
                 {
-                    throw new ArgumentNullException("Success status was null.");
+                    throw new ArgumentNullException(nameof(deserializedResponse.IsSuccess));
                 }
 
                 if ((bool)!deserializedResponse.IsSuccess)

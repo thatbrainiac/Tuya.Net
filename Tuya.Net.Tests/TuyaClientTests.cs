@@ -17,7 +17,7 @@ namespace Tuya.Net.Tests
         /// <summary>
         /// Tuya client instance.
         /// </summary>
-        private TuyaClient client = null!;
+        private ITuyaClient client = null!;
 
         /// <summary>
         /// Access token info.

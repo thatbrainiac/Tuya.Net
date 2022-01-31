@@ -11,7 +11,7 @@ namespace Tuya.Net.Converters
         public override bool CanConvert(Type t) => t == typeof(Category) || t == typeof(Category?);
 
         /// <inheritdoc />
-        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type t, object? existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType == JsonToken.Null)
             {
@@ -28,7 +28,7 @@ namespace Tuya.Net.Converters
         }
 
         /// <inheritdoc />
-        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object? untypedValue, JsonSerializer serializer)
         {
             if (untypedValue == null)
             {

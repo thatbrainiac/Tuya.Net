@@ -14,9 +14,9 @@ namespace Tuya.Net.Data
         public long? Timestamp { get; set; }
 
         [JsonProperty("code", NullValueHandling = NullValueHandling.Ignore)]
-        public string? ErrorCode { get; set; } = null;
+        public string? ErrorCode { get; set; }
 
         [JsonProperty("msg", NullValueHandling = NullValueHandling.Ignore)]
-        public string? ErrorMessage { get; set; } = null;
+        public string? ErrorMessage { get; set; }
     }
 }

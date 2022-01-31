@@ -2,7 +2,7 @@
 
 namespace Tuya.Net.Data
 {
-    public partial class AccessTokenInfo
+    public class AccessTokenInfo
     {
         [JsonProperty("access_token", NullValueHandling = NullValueHandling.Ignore)]
         public string? TokenString { get; set; }

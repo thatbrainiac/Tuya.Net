@@ -2,7 +2,7 @@
 
 namespace Tuya.Net.Data
 {
-    public partial class Instruction
+    public class Instruction
     {
         [JsonProperty("code", NullValueHandling = NullValueHandling.Ignore)]
         public string? Code { get; set; }

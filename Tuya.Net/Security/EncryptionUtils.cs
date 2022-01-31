@@ -16,7 +16,7 @@ namespace Tuya.Net.Security
         /// <param name="relativeUrl">The relative url (endpoint).</param>
         /// <param name="payload">The request payload.</param>
         /// <param name="timestamp">The timestamp of the request.</param>
-        /// <param name="nonce">The access token if present.</param>
+        /// <param name="accessToken">The access token if present.</param>
         /// <param name="nonce">The nonce.</param>
         /// <returns>A string containing the request signature.</returns>
         internal static string CalculateSignature(ITuyaCredentials credentials, HttpMethod method, string relativeUrl, string payload, string timestamp, string accessToken = "", string nonce = "")
@@ -35,11 +35,9 @@ namespace Tuya.Net.Security
         /// <returns>A SHA-256 representation of the given string.</returns>
         internal static string ToSha256(this string rawString)
         {
-            using (SHA256 sha256Hash = SHA256.Create())
-            {
-                var bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawString));
-                return ConvertByteArrayToString(bytes);
-            }
+            using var sha256Hash = SHA256.Create();
+            var bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawString));
+            return ConvertByteArrayToString(bytes);
         }
 
         /// <summary>
@@ -54,11 +52,9 @@ namespace Tuya.Net.Security
             var keyByte = encoding.GetBytes(secret);
             var messageBytes = encoding.GetBytes(message);
 
-            using (var hmacSha256 = new HMACSHA256(keyByte))
-            {
-                var hashMessage = hmacSha256.ComputeHash(messageBytes);
-                return ConvertByteArrayToString(hashMessage).ToUpper();
-            }
+            using var hmacSha256 = new HMACSHA256(keyByte);
+            var hashMessage = hmacSha256.ComputeHash(messageBytes);
+            return ConvertByteArrayToString(hashMessage).ToUpper();
         }
 
         /// <summary>
