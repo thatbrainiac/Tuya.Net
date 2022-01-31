@@ -1,6 +1,6 @@
 ﻿using Tuya.Net.Data;
 
-namespace Tuya.Net.Api
+namespace Tuya.Net
 {
     /// <summary>
     /// Tuya API client interface.
