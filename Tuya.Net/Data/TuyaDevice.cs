@@ -3,7 +3,7 @@
 namespace Tuya.Net.Data
 {
     /// <summary>
-    /// Tuya Device.
+    /// Tuya Device DTO.
     /// </summary>
     public class TuyaDevice : TuyaDeviceInfo
     {
@@ -11,6 +11,6 @@ namespace Tuya.Net.Data
         /// Gets or sets the Tuya Device status list.
         /// </summary>
         [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
-        public IList<TuyaDeviceStatus>? Status { get; set; }
+        public IList<TuyaDeviceStatus>? StatusList { get; set; }
     }
 }

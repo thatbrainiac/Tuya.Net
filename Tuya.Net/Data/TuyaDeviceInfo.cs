@@ -3,7 +3,7 @@
 namespace Tuya.Net.Data
 {
     /// <summary>
-    /// Tuya Device DAO.
+    /// Tuya Device Info DTO.
     /// </summary>
     public class TuyaDeviceInfo
     {

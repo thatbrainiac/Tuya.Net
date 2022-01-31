@@ -2,14 +2,26 @@
 
 namespace Tuya.Net.Data
 {
+    /// <summary>
+    /// Tuya user DTO.
+    /// </summary>
     public class TuyaUser
     {
+        /// <summary>
+        /// Gets or sets the avatar url.
+        /// </summary>
         [JsonProperty("avatar")]
         public Uri? AvatarUrl { get; set; }
 
+        /// <summary>
+        /// Gets or sets the country code.
+        /// </summary>
         [JsonProperty("country_code")]
         public string? CountryCode { get; set; }
 
+        /// <summary>
+        /// Gets or sets the created time.
+        /// </summary>
         [JsonProperty("create_time")]
         public long? CreateTime { get; set; }
 
