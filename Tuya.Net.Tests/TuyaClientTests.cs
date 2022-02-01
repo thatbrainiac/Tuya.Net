@@ -73,7 +73,9 @@ namespace Tuya.Net.Tests
         {
             Assert.DoesNotThrowAsync(async () =>
             {
-                var deviceInfo = await client.GetDeviceInfoAsync(config["TestDeviceId"], accessTokenInfo!);
+                var testDeviceId = config["TestDeviceId"];
+                AssertInconclusiveIfNullOrEmpty(testDeviceId);
+                var deviceInfo = await client.GetDeviceInfoAsync(testDeviceId, accessTokenInfo!);
                 Assert.IsNotNull(deviceInfo);
             });
         }
@@ -86,9 +88,23 @@ namespace Tuya.Net.Tests
         {
             Assert.DoesNotThrowAsync(async () =>
             {
-                var userInfo = await client.GetUserInfoAsync(config["MyUserId"], accessTokenInfo!);
+                var userId = config["MyUserId"];
+                AssertInconclusiveIfNullOrEmpty(userId);
+                var userInfo = await client.GetUserInfoAsync(userId, accessTokenInfo!);
                 Assert.IsNotNull(userInfo);
             });
+        }
+
+        /// <summary>
+        /// Helper method to assert inconclusive if config item is null or empty.
+        /// </summary>
+        /// <param name="configItem">Configuration item.</param>
+        private static void AssertInconclusiveIfNullOrEmpty(string configItem)
+        {
+            if (string.IsNullOrEmpty(configItem))
+            {
+                Assert.Inconclusive($"Config item is null or empty: {nameof(configItem)}");
+            }
         }
     }
 }
