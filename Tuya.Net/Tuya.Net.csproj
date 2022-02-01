@@ -1,9 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
+    <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>Tuya.Net</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Brian Herman</Authors>
+    <Description>A cross-platform .NET 6 library for controlling Tuya devices using the cloud-hosted Tuya API.</Description>
+    <RepositoryUrl>https://github.com/thatbrainiac/Tuya.Net</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
