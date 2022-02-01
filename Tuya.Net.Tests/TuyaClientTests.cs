@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
-using Tuya.Net.Api;
 using Tuya.Net.Data;
 using Tuya.Net.Security;
 

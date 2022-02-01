@@ -5,7 +5,7 @@ namespace Tuya.Net.Data
     /// <summary>
     /// Tuya API Response DTO.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Response object type.</typeparam>
     public class TuyaResponse<T>
     {
         /// <summary>
