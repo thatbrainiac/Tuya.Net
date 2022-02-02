@@ -62,6 +62,11 @@ namespace Tuya.Net.Api
                 request.Headers.Add("access_token", accessTokenValue);
             }
 
+            if (payload != string.Empty)
+            {
+                request.Content = new StringContent(payload);
+            }
+
             var response = await httpClient.SendAsync(request, cancellationToken);
 
             if (!response.IsSuccessStatusCode)

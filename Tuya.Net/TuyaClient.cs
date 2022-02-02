@@ -126,9 +126,7 @@ namespace Tuya.Net
         /// <inheritdoc />
         public async Task<bool> SendCommandListAsync(string deviceId, IList<Command> commands, IAccessToken? accessToken = default, CancellationToken ct = default)
         {
-            var cmd = "{\"commands\":[{\"code\": \"switch_led\",\"value\": false}]}";
-            var cmdGen = JsonConvert.SerializeObject(new {commands});
-            return await AuthenticatedRequestAsync<bool>(HttpMethod.Post, $"/v1.0/devices/{deviceId}/commands", accessToken, cmd, cancellationToken: ct);
+            return await AuthenticatedRequestAsync<bool>(HttpMethod.Post, $"/v1.0/devices/{deviceId}/commands", accessToken, JsonConvert.SerializeObject(new { commands }), cancellationToken: ct);
         }
 
         /// <summary>
