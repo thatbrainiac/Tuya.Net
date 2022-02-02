@@ -5,13 +5,13 @@ namespace Tuya.Net.Data
     /// <summary>
     /// Access Token Info DTO.
     /// </summary>
-    public class AccessTokenInfo
+    public class AccessTokenInfo : IAccessToken, IIdentifiable
     {
         /// <summary>
         /// Gets or sets the token string.
         /// </summary>
         [JsonProperty("access_token", NullValueHandling = NullValueHandling.Ignore)]
-        public string? TokenString { get; set; }
+        public string? Value { get; set; }
 
         /// <summary>
         /// Gets or sets the expiration time.
@@ -29,6 +29,6 @@ namespace Tuya.Net.Data
         /// Gets or sets the UID.
         /// </summary>
         [JsonProperty("uid", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Uid { get; set; }
+        public string? Id { get; set; }
     }
 }

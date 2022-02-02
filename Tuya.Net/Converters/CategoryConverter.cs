@@ -4,26 +4,26 @@ using Tuya.Net.Data;
 namespace Tuya.Net.Converters
 {
     /// <summary>
-    /// Category converter.
+    /// DeviceCategory converter.
     /// </summary>
     public class CategoryConverter : JsonConverter
     {
-        public override bool CanConvert(Type t) => t == typeof(Category) || t == typeof(Category?);
+        public override bool CanConvert(Type t) => t == typeof(DeviceCategory) || t == typeof(DeviceCategory?);
 
         /// <inheritdoc />
         public override object ReadJson(JsonReader reader, Type t, object? existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType == JsonToken.Null)
             {
-                return Category.Unknown;
+                return DeviceCategory.Unknown;
             }
             var value = serializer.Deserialize<string>(reader);
             return value switch
             {
-                "cz" => Category.Cz,
-                "dj" => Category.Dj,
-                "pir" => Category.Pir,
-                _ => Category.Unknown,
+                "cz" => DeviceCategory.Cz,
+                "dj" => DeviceCategory.Dj,
+                "pir" => DeviceCategory.Pir,
+                _ => DeviceCategory.Unknown,
             };
         }
 
@@ -35,24 +35,27 @@ namespace Tuya.Net.Converters
                 serializer.Serialize(writer, null);
                 return;
             }
-            var value = (Category)untypedValue;
+
+            string valueString;
+            var value = (DeviceCategory)untypedValue;
+
             switch (value)
             {
-                case Category.Cz:
-                    serializer.Serialize(writer, "cz");
+                case DeviceCategory.Cz:
+                    valueString = "cz";
                     break;
-                case Category.Dj:
-                    serializer.Serialize(writer, "dj");
+                case DeviceCategory.Dj:
+                    valueString = "dj";
                     break;
-                case Category.Pir:
-                    serializer.Serialize(writer, "pir");
+                case DeviceCategory.Pir:
+                    valueString = "pir";
                     break;
                 default:
-                    serializer.Serialize(writer, "unknown");
+                    valueString = "unknown";
                     break;
             }
-        }
 
-        public static readonly CategoryConverter Singleton = new CategoryConverter();
+            serializer.Serialize(writer, valueString);
+        }
     }
 }

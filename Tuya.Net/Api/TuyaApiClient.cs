@@ -8,7 +8,7 @@ namespace Tuya.Net.Api
     /// <summary>
     /// Tuya API client.
     /// </summary>
-    internal class TuyaApiClient
+    public class TuyaApiClient : ITuyaLowLevelClient
     {
         /// <summary>
         /// HttpClient instance.
@@ -39,20 +39,14 @@ namespace Tuya.Net.Api
             };
         }
 
-        /// <summary>
-        /// Send request to Tuya API and read the response as a passed object type.
-        /// </summary>
-        /// <typeparam name="T">The object type to be deserialized to.</typeparam>
-        /// <param name="method">The <see cref="HttpMethod"/> used.</param>
-        /// <param name="path">Endpoint path.</param>
-        /// <param name="accessTokenInfo">Access token information.</param>
-        /// <param name="payload">Request payload.</param>
-        /// <returns>A deserialized <typeparamref name="T"/> object.</returns>
-        internal async Task<T?> ReadAsync<T>(HttpMethod method, string path, AccessTokenInfo? accessTokenInfo = null, string payload = "")
+        /// <inheritdoc />
+        public async Task<T?> SendRequestAsync<T>(HttpMethod method, string path, IAccessToken? accessToken, string payload = "", CancellationToken cancellationToken = default)
         {
-            var accessToken = accessTokenInfo == null ? string.Empty : accessTokenInfo.TokenString!;
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var accessTokenValue = accessToken == null ? string.Empty : accessToken.Value!;
             var currentTimeMillis = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
-            var sign = EncryptionUtils.CalculateSignature(credentials, method, path, payload, currentTimeMillis, accessToken, payload);
+            var sign = EncryptionUtils.CalculateSignature(credentials, method, path, payload, currentTimeMillis, accessTokenValue);
 
             var request = new HttpRequestMessage()
             {
@@ -63,19 +57,19 @@ namespace Tuya.Net.Api
             request.Headers.Add("t", currentTimeMillis);
             request.Headers.Add("sign", sign);
 
-            if (accessTokenInfo != null)
+            if (accessToken != null)
             {
-                request.Headers.Add("access_token", accessToken);
+                request.Headers.Add("access_token", accessTokenValue);
             }
 
-            var response = await httpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request, cancellationToken);
 
             if (!response.IsSuccessStatusCode)
             {
-                throw new HttpRequestException($"Received a non-success status code from Tuya API. Code: {response.StatusCode}. Reason: {response.ReasonPhrase}");
+                throw new TuyaResponseException($"Received a non-success status code from Tuya API. Code: {response.StatusCode}. Reason: {response.ReasonPhrase}");
             }
 
-            var responseContent = await response.Content.ReadAsStringAsync();
+            var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
             return DeserializeResponse<T>(responseContent);
         }
 

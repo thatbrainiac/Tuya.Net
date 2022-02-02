@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json;
+using Tuya.Net.Converters;
 
 namespace Tuya.Net.Data
 {
     /// <summary>
     /// Tuya Device Info DTO.
     /// </summary>
-    public class TuyaDeviceInfo
+    public class DeviceInfo : IIdentifiable
     {
         /// <summary>
         /// Gets or sets the active time in ms since Epoch.
@@ -17,13 +18,7 @@ namespace Tuya.Net.Data
         /// Gets or sets the category ID.
         /// </summary>
         [JsonProperty("category", NullValueHandling = NullValueHandling.Ignore)]
-        public string? CategoryId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the category name.
-        /// </summary>
-        [JsonProperty("category_name", NullValueHandling = NullValueHandling.Ignore)]
-        public string? CategoryName { get; set; }
+        public DeviceCategory? Category { get; set; }
 
         /// <summary>
         /// Gets or sets the create time.
@@ -132,5 +127,17 @@ namespace Tuya.Net.Data
         /// </summary>
         [JsonProperty("uuid", NullValueHandling = NullValueHandling.Ignore)]
         public string? Uuid { get; set; }
+    }
+
+    /// <summary>
+    /// Tuya Device Category Enum.
+    /// </summary>
+    [JsonConverter(typeof(CategoryConverter))]
+    public enum DeviceCategory
+    {
+        Cz,
+        Dj,
+        Pir,
+        Unknown
     }
 }

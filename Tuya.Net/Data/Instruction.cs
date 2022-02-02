@@ -29,12 +29,26 @@ namespace Tuya.Net.Data
         /// Gets or sets the instruction type.
         /// </summary>
         [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Type { get; set; }
+        public InstructionType Type { get; set; }
 
         /// <summary>
         /// Gets or sets the instruction values.
         /// </summary>
         [JsonProperty("values", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Values { get; set; } // TODO dynamic?
+        public dynamic? Values { get; set; }
+    }
+
+    /// <summary>
+    /// Tuya Device Instruction Type Enum.
+    /// </summary>
+    public enum InstructionType
+    {
+        Boolean,
+        Enum,
+        Integer,
+        String,
+        Json,
+        Raw,
+        Unknown
     }
 }

@@ -19,11 +19,6 @@ namespace Tuya.Net.Tests
         private ITuyaClient client = null!;
 
         /// <summary>
-        /// Access token info.
-        /// </summary>
-        private AccessTokenInfo? accessTokenInfo;
-
-        /// <summary>
         /// Configuration instance.
         /// </summary>
         private IConfigurationRoot config = null!;
@@ -35,7 +30,7 @@ namespace Tuya.Net.Tests
         public async Task SetUpAsync()
         {
             config = new ConfigurationBuilder()
-                .AddJsonFile("Config.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("Config.json", false, true)
                 .AddUserSecrets<TuyaClientTests>()
                 .Build();
 
@@ -45,23 +40,8 @@ namespace Tuya.Net.Tests
                 ClientSecret = config["TuyaClientSecret"] ?? throw new ArgumentException("Tuya Client Secret not configured! Add \"TuyaSecret\" to your secrets file.")
             };
 
-            client = new TuyaClient(config["TuyaApiUrl"], tuyaCreds);
-            accessTokenInfo = await client.GetAccessTokenInfoAsync();
-            Assert.IsNotNull(accessTokenInfo);
-        }
-
-        /// <summary>
-        /// Test obtaining the access token from Tuya.
-        /// </summary>
-        [Test]
-        [Ignore("Covered by other integration tests.")]
-        public void Test_GetAccessTokenInfo_AccessTokenObject()
-        {
-            Assert.DoesNotThrowAsync(async () =>
-            {
-                var token = await client.GetAccessTokenInfoAsync();
-                Assert.IsNotNull(token);
-            });
+            client = await new TuyaClient(config["TuyaApiUrl"], tuyaCreds)
+                .WithAuthentication();
         }
 
         /// <summary>
@@ -74,8 +54,9 @@ namespace Tuya.Net.Tests
             {
                 var testDeviceId = config["TestDeviceId"];
                 AssertInconclusiveIfNullOrEmpty(testDeviceId);
-                var deviceInfo = await client.GetDeviceInfoAsync(testDeviceId, accessTokenInfo!);
+                var deviceInfo = await client.GetDeviceInfoAsync(testDeviceId);
                 Assert.IsNotNull(deviceInfo);
+                Assert.AreEqual(testDeviceId, deviceInfo!.Id);
             });
         }
 
@@ -89,8 +70,49 @@ namespace Tuya.Net.Tests
             {
                 var userId = config["MyUserId"];
                 AssertInconclusiveIfNullOrEmpty(userId);
-                var userInfo = await client.GetUserInfoAsync(userId, accessTokenInfo!);
+                var userInfo = await client.GetUserAsync(userId);
                 Assert.IsNotNull(userInfo);
+                Assert.AreEqual(userId, userInfo!.Id);
+            });
+        }
+
+        /// <summary>
+        /// Test obtaining a device.
+        /// </summary>
+        [Test]
+        public void Test_GetDeviceAsync_DeviceObject()
+        {
+            Assert.DoesNotThrowAsync(async () =>
+            {
+                var testDeviceId = config["TestDeviceId"];
+                AssertInconclusiveIfNullOrEmpty(testDeviceId);
+                var device = await client.GetDeviceAsync(testDeviceId);
+                Assert.IsNotNull(device);
+                Assert.AreEqual(testDeviceId, device!.Id);
+            });
+        }
+
+        /// <summary>
+        /// Test sending a command to a device.
+        /// </summary>
+        [Test]
+        public void Test_SendCommand_True()
+        {
+            Assert.DoesNotThrowAsync(async () =>
+            {
+                var testDeviceId = config["TestDeviceId"];
+                AssertInconclusiveIfNullOrEmpty(testDeviceId);
+                var device = await client.GetDeviceAsync(testDeviceId);
+                Assert.IsNotNull(device);
+
+                var command = new Command()
+                {
+                    Code = "switch_led",
+                    Value = true,
+                };
+
+                var result = await client.SendCommandAsync(device!, command);
+                Assert.IsTrue(result);
             });
         }
 

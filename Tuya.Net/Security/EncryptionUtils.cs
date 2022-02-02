@@ -1,6 +1,8 @@
-﻿using System.Security.Cryptography;
+﻿using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Text;
 
+[assembly: InternalsVisibleTo("Tuya.Net.Tests")]
 namespace Tuya.Net.Security
 {
     /// <summary>

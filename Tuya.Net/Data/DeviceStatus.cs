@@ -5,7 +5,7 @@ namespace Tuya.Net.Data
     /// <summary>
     /// Tuya Device Status DTO.
     /// </summary>
-    public class TuyaDeviceStatus
+    public class DeviceStatus
     {
         /// <summary>
         /// Gets or sets the status code.
