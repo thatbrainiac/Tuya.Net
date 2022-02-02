@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Tuya.Net.Data;
 using Tuya.Net.Security;
@@ -96,7 +97,7 @@ namespace Tuya.Net.Tests
         /// Test sending a command to a device.
         /// </summary>
         [Test]
-        public void Test_SendCommand_True()
+        public void Test_ToggleLightingDevice_HappyPath()
         {
             Assert.DoesNotThrowAsync(async () =>
             {
@@ -105,10 +106,23 @@ namespace Tuya.Net.Tests
                 var device = await client.GetDeviceAsync(testDeviceId);
                 Assert.IsNotNull(device);
 
+                var deviceStatusList = device!.StatusList;
+                Assert.IsNotNull(deviceStatusList);
+
+                var status = deviceStatusList!.FirstOrDefault(ds => ds.Code == "switch_led");
+                Assert.IsNotNull(status);
+
+                if (status!.Value is not bool)
+                {
+                    Assert.Fail("Cannot run test, the switch_led status did not return bool as expected.");
+                }
+
+                var isTurnedOn = (bool)status!.Value!;
+
                 var command = new Command()
                 {
                     Code = "switch_led",
-                    Value = true,
+                    Value = !isTurnedOn,
                 };
 
                 var result = await client.SendCommandAsync(device!, command);
