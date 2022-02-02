@@ -17,6 +17,6 @@ namespace Tuya.Net.Data
         /// Gets or sets the command value.
         /// </summary>
         [JsonProperty("value", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? Value { get; set; }
+        public dynamic? Value { get; set; }
     }
 }

@@ -17,6 +17,6 @@ namespace Tuya.Net.Data
         /// Gets or sets the status value.
         /// </summary>
         [JsonProperty("value", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Value { get; set; }
+        public dynamic? Value { get; set; }
     }
 }
