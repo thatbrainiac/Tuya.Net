@@ -1,23 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <PackageId>Tuya.Net</PackageId>
-    <Version>0.1.0</Version>
-    <Authors>Brian Herman</Authors>
-    <Description>A cross-platform .NET 6 library for controlling Tuya devices using the cloud-hosted Tuya API.</Description>
-    <RepositoryUrl>https://github.com/thatbrainiac/Tuya.Net</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-  </PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <PackageId>Tuya.Net</PackageId>
+        <Version>0.1.0</Version>
+        <Authors>Brian Herman</Authors>
+        <Description>A cross-platform .NET 6 library for controlling Tuya devices using the cloud-hosted Tuya API.</Description>
+        <RepositoryUrl>https://github.com/thatbrainiac/Tuya.Net</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NUnit" Version="3.13.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="NUnit" Version="3.13.2" />
+        <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
+    </ItemGroup>
 
 </Project>

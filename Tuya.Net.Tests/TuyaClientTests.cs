@@ -55,7 +55,7 @@ namespace Tuya.Net.Tests
             {
                 var testDeviceId = config["TestDeviceId"];
                 AssertInconclusiveIfNullOrEmpty(testDeviceId);
-                var deviceInfo = await client.GetDeviceInfoAsync(testDeviceId);
+                var deviceInfo = await client.DeviceManager.GetDeviceInfoAsync(testDeviceId);
                 Assert.IsNotNull(deviceInfo);
                 Assert.AreEqual(testDeviceId, deviceInfo!.Id);
             });
@@ -71,7 +71,7 @@ namespace Tuya.Net.Tests
             {
                 var userId = config["MyUserId"];
                 AssertInconclusiveIfNullOrEmpty(userId);
-                var userInfo = await client.GetUserAsync(userId);
+                var userInfo = await client.UserManager.GetUserByIdAsync(userId);
                 Assert.IsNotNull(userInfo);
                 Assert.AreEqual(userId, userInfo!.Id);
             });
@@ -87,7 +87,7 @@ namespace Tuya.Net.Tests
             {
                 var testDeviceId = config["TestDeviceId"];
                 AssertInconclusiveIfNullOrEmpty(testDeviceId);
-                var device = await client.GetDeviceAsync(testDeviceId);
+                var device = await client.DeviceManager.GetDeviceAsync(testDeviceId);
                 Assert.IsNotNull(device);
                 Assert.AreEqual(testDeviceId, device!.Id);
             });
@@ -103,7 +103,7 @@ namespace Tuya.Net.Tests
             {
                 var testDeviceId = config["TestDeviceId"];
                 AssertInconclusiveIfNullOrEmpty(testDeviceId);
-                var device = await client.GetDeviceAsync(testDeviceId);
+                var device = await client.DeviceManager.GetDeviceAsync(testDeviceId);
                 Assert.IsNotNull(device);
 
                 var deviceStatusList = device!.StatusList;
@@ -117,7 +117,7 @@ namespace Tuya.Net.Tests
                     Assert.Fail("Cannot run test, the switch_led status did not return bool as expected.");
                 }
 
-                var isTurnedOn = (bool)status!.Value!;
+                var isTurnedOn = (bool)status.Value!;
 
                 var command = new Command()
                 {
@@ -125,7 +125,7 @@ namespace Tuya.Net.Tests
                     Value = !isTurnedOn,
                 };
 
-                var result = await client.SendCommandAsync(device!, command);
+                var result = await client.DeviceManager.SendCommandAsync(device, command);
                 Assert.IsTrue(result);
             });
         }
