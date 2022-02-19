@@ -1,5 +1,3 @@
 {
-  "TuyaApiUrl": "https://openapi.tuyaeu.com",
-  "MyUserId": "",
-  "TestDeviceId": ""
+  "TuyaApiUrl": "https://openapi.tuyaeu.com"
 }
