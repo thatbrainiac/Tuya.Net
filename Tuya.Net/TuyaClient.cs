@@ -29,9 +29,9 @@ namespace Tuya.Net
         public TuyaClient(string baseAddress, ITuyaCredentials credentials, ILogger<TuyaClient>? logger = null)
         {
             this.logger = logger;
-            LowLevel = new TuyaApiClient(baseAddress, credentials);
-            DeviceManager = new DeviceManager(this);
-            UserManager = new UserManager(this);
+            LowLevel = new TuyaApiClient(baseAddress, credentials, logger);
+            DeviceManager = new DeviceManager(this, logger);
+            UserManager = new UserManager(this, logger);
         }
 
         /// <summary>

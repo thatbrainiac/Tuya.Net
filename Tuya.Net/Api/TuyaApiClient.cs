@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Tuya.Net.Data;
 using Tuya.Net.Exceptions;
 using Tuya.Net.Security;
@@ -21,12 +22,19 @@ namespace Tuya.Net.Api
         private readonly ITuyaCredentials credentials;
 
         /// <summary>
+        /// Logger instance.
+        /// </summary>
+        private readonly ILogger? logger;
+
+        /// <summary>
         /// Creates a new instance of the <see cref="TuyaApiClient"/> class.
         /// </summary>
         /// <param name="baseAddress">Base address of the server.</param>
         /// <param name="credentials">Tuya API credentials.</param>
-        public TuyaApiClient(string baseAddress, ITuyaCredentials credentials)
+        /// <param name="logger">Logger instance./</param>
+        public TuyaApiClient(string baseAddress, ITuyaCredentials credentials, ILogger? logger)
         {
+            this.logger = logger;
             this.credentials = credentials;
             httpClient = new HttpClient()
             {
@@ -42,6 +50,7 @@ namespace Tuya.Net.Api
         /// <inheritdoc />
         public async Task<T?> SendRequestAsync<T>(HttpMethod method, string path, IAccessToken? accessToken, string payload = "", CancellationToken cancellationToken = default)
         {
+            logger?.LogDebug("HTTP SEND: {method} {path} - Payload: {payload}", method, path, payload == string.Empty ? "<empty>" : payload);
             cancellationToken.ThrowIfCancellationRequested();
 
             var accessTokenValue = accessToken == null ? string.Empty : accessToken.Value!;
@@ -68,6 +77,7 @@ namespace Tuya.Net.Api
             }
 
             var response = await httpClient.SendAsync(request, cancellationToken);
+            logger?.LogDebug("HTTP RECEIVE: {response}", response);
 
             if (!response.IsSuccessStatusCode)
             {
