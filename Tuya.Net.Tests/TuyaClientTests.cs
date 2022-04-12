@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging.Abstractions;
 using Tuya.Net.Data;
 using Tuya.Net.Security;
 
@@ -41,7 +42,7 @@ namespace Tuya.Net.Tests
                 ClientSecret = config["TuyaClientSecret"] ?? throw new ArgumentException("Tuya Client Secret not configured! Add \"TuyaSecret\" to your secrets file.")
             };
 
-            client = await new TuyaClient(config["TuyaApiUrl"], tuyaCreds)
+            client = await new TuyaClient(config["TuyaApiUrl"], tuyaCreds, NullLogger<TuyaClient>.Instance)
                 .WithAuthentication();
         }
 

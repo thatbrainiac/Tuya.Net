@@ -1,4 +1,5 @@
-﻿using Tuya.Net.Api;
+﻿using Microsoft.Extensions.Logging;
+using Tuya.Net.Api;
 using Tuya.Net.Data;
 using Tuya.Net.IoT;
 using Tuya.Net.Security;
@@ -24,12 +25,19 @@ namespace Tuya.Net
         /// </summary>
         /// <param name="baseAddress">Base URI of the API.</param>
         /// <param name="credentials">Tuya API credentials.</param>
-        public TuyaClient(string baseAddress, ITuyaCredentials credentials)
+        /// <param name="logger">Logger instance.</param>
+        public TuyaClient(string baseAddress, ITuyaCredentials credentials, ILogger<TuyaClient>? logger = null)
         {
-            LowLevel = new TuyaApiClient(baseAddress, credentials);
-            DeviceManager = new DeviceManager(this);
-            UserManager = new UserManager(this);
+            this.logger = logger;
+            LowLevel = new TuyaApiClient(baseAddress, credentials, logger);
+            DeviceManager = new DeviceManager(this, logger);
+            UserManager = new UserManager(this, logger);
         }
+
+        /// <summary>
+        /// <see cref="TuyaClient"/> logger.
+        /// </summary>
+        private readonly ILogger<TuyaClient>? logger;
 
         /// <summary>
         /// Access token.
@@ -48,14 +56,17 @@ namespace Tuya.Net
         /// <inheritdoc />
         public async Task<AccessTokenInfo?> GetAccessTokenInfoAsync(CancellationToken ct = default)
         {
+            logger?.LogInformation("Obtaining access token information from Tuya.");
             return await LowLevel.SendRequestAsync<AccessTokenInfo?>(HttpMethod.Get, "/v1.0/token?grant_type=1", null, cancellationToken: ct);
         }
 
         /// <inheritdoc />
         public async Task<T?> AuthenticatedRequestAsync<T>(HttpMethod httpMethod, string path, IAccessToken? accessToken, string payload = "", CancellationToken cancellationToken = default)
         {
+            logger?.LogInformation("Performing authenticated request: {httpMethod} {path}", httpMethod, path);
             if (accessToken == null && tuyaAccessToken == null)
             {
+                logger?.LogError("Missing access token for a request that requires authentication. Please provide it or set the access token in the client. Request: {httpMethod} {path}", httpMethod, path);
                 throw new ArgumentNullException(nameof(accessToken), "Missing access token for a request that requires authentication. Please provide it or set the access token in the client.");
             }
             return await LowLevel.SendRequestAsync<T>(httpMethod, path, accessToken ?? tuyaAccessToken!, payload, cancellationToken);
