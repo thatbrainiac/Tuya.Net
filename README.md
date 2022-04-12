@@ -1,5 +1,5 @@
 # Tuya.Net ![build](https://github.com/thatbrainiac/Tuya.Net/actions/workflows/dotnet.yml/badge.svg)
-A Tuya API client library written in .NET 6. Extend your smart home functionality.
+A Tuya API client library written for .NET 6. Extend your smart home functionality.
 
 ## Prerequisites
 
