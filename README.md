@@ -35,13 +35,7 @@ client = await new TuyaClient(TuyaApiUrl, tuyaCreds)
 ## Get device list for a given user ID
 
 ```csharp
-
-```
-
-### Get information about a device
-
-```csharp
-var device = await client.DeviceManager.GetDeviceAsync("device_id_here"));
+var devices = await client.DeviceManager.GetDevicesByUserAsync("user_id_here"));
 /// do something..
 ```
 
