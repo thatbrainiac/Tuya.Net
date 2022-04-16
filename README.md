@@ -21,15 +21,10 @@ Below are some examples on how to use this library and use cases where it may be
 
 ### Creating an instance of the client using the builder
 ```csharp
-var tuyaCredentials = new TuyaCredentials()
-{
-    ClientId = "<your_client_id_here>", // replace with your actual client id
-    ClientSecret = "<your_client_secret_here>" // replace with your actual client secret
-};
-
 var client = TuyaClient.GetBuilder()
     .UsingDataCenter(DataCenter.CentralEurope)
-    .UsingCredentials(tuyaCredentials)
+    .UsingClientId("<your_client_id_here>") // replace with your actual client id
+    .UsingSecret("<your_client_secret_here>") // replace with your actual client secret
     .UsingLogger(NullLogger<ITuyaClient>.Instance)
     .Build();
 ```

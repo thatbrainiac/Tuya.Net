@@ -35,15 +35,10 @@ namespace Tuya.Net.Tests
                 .AddUserSecrets<TuyaClientTests>()
                 .Build();
 
-            var tuyaCreds = new TuyaCredentials()
-            {
-                ClientId = config["TuyaClientId"] ?? throw new ArgumentException("Tuya Client Id not configured! Add \"TuyaClientId\" to your secrets file."),
-                ClientSecret = config["TuyaClientSecret"] ?? throw new ArgumentException("Tuya Client Secret not configured! Add \"TuyaSecret\" to your secrets file.")
-            };
-
             client = TuyaClient.GetBuilder()
                 .UsingDataCenter(DataCenter.CentralEurope)
-                .UsingCredentials(tuyaCreds)
+                .UsingClientId(config["TuyaClientId"] ?? throw new ArgumentException("Tuya Client Id not configured! Add \"TuyaClientId\" to your secrets file."))
+                .UsingSecret(config["TuyaClientSecret"] ?? throw new ArgumentException("Tuya Client Secret not configured! Add \"TuyaSecret\" to your secrets file."))
                 .UsingLogger(NullLogger<ITuyaClient>.Instance)
                 .Build();
         }
