@@ -1,4 +1,4 @@
-﻿namespace Tuya.Net.Security
+﻿namespace Tuya.Net.Data.Settings
 {
     /// <summary>
     /// Tuya credentials interface.
@@ -6,13 +6,13 @@
     public interface ITuyaCredentials
     {
         /// <summary>
-        /// Tuya Client id.
+        /// Gets the Tuya client id.
         /// </summary>
-        string ClientId { get; }
+        string ClientId { get; init; }
 
         /// <summary>
-        /// Tuya Client secret.
+        /// Gets the Tuya client secret.
         /// </summary>
-        string ClientSecret { get; }
+        string ClientSecret { get; init; }
     }
 }

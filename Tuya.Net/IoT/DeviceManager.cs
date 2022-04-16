@@ -28,90 +28,90 @@ namespace Tuya.Net.IoT
         }
 
         /// <inheritdoc />
-        public async Task<Device?> GetDeviceAsync(string deviceId, IAccessToken? accessToken = default, CancellationToken ct = default)
+        public async Task<Device?> GetDeviceAsync(string deviceId, CancellationToken ct = default)
         {
             logger?.LogInformation("Getting device: {deviceId}", deviceId);
-            return await client.AuthenticatedRequestAsync<Device?>(HttpMethod.Get, $"/v1.0/devices/{deviceId}", accessToken, cancellationToken: ct);
+            return await client.RequestAsync<Device?>(HttpMethod.Get, $"/v1.0/devices/{deviceId}", cancellationToken: ct);
         }
 
         /// <inheritdoc />
-        public async Task<DeviceInfo?> GetDeviceInfoAsync(string deviceId, IAccessToken? accessToken = default, CancellationToken ct = default)
+        public async Task<DeviceInfo?> GetDeviceInfoAsync(string deviceId, CancellationToken ct = default)
         {
             logger?.LogInformation("Getting device information: {deviceId}", deviceId);
-            return await client.AuthenticatedRequestAsync<DeviceInfo?>(HttpMethod.Get, $"/v1.1/iot-03/devices/{deviceId}", accessToken, cancellationToken: ct);
+            return await client.RequestAsync<DeviceInfo?>(HttpMethod.Get, $"/v1.1/iot-03/devices/{deviceId}", cancellationToken: ct);
         }
 
         /// <inheritdoc />
-        public async Task<IList<DeviceStatus>?> GetDeviceStatusAsync(DeviceInfo device, IAccessToken? accessToken = default, CancellationToken ct = default)
+        public async Task<IList<DeviceStatus>?> GetDeviceStatusAsync(DeviceInfo device, CancellationToken ct = default)
         {
             logger?.LogInformation("Getting device status for device: {deviceId}", device.Id ?? "unknown");
             ThrowIfInvalid(device);
-            return await GetDeviceStatusAsync(device.Id!, accessToken, ct);
+            return await GetDeviceStatusAsync(device.Id!, ct);
         }
 
         /// <inheritdoc />
-        public async Task<IList<DeviceStatus>?> GetDeviceStatusAsync(string deviceId, IAccessToken? accessToken = default, CancellationToken ct = default)
+        public async Task<IList<DeviceStatus>?> GetDeviceStatusAsync(string deviceId, CancellationToken ct = default)
         {
             logger?.LogInformation("Getting device status for device: {deviceId}", deviceId);
-            return await client.AuthenticatedRequestAsync<IList<DeviceStatus>?>(HttpMethod.Get, $"/v1.0/devices/{deviceId}/status", accessToken, cancellationToken: ct);
+            return await client.RequestAsync<IList<DeviceStatus>?>(HttpMethod.Get, $"/v1.0/devices/{deviceId}/status", cancellationToken: ct);
         }
 
         /// <inheritdoc />
-        public async Task<IList<Device>?> GetDevicesByUserAsync(User user, IAccessToken? accessToken = default, CancellationToken cancellationToken = default)
+        public async Task<IList<Device>?> GetDevicesByUserAsync(User user, CancellationToken cancellationToken = default)
         {
             logger?.LogInformation("Getting device list for user: {userId}", user.Id ?? "unknown");
             ThrowIfInvalid(user);
-            return await GetDevicesByUserAsync(user.Id!, accessToken, cancellationToken);
+            return await GetDevicesByUserAsync(user.Id!, cancellationToken);
         }
 
         /// <inheritdoc />
-        public async Task<IList<Device>?> GetDevicesByUserAsync(string userId, IAccessToken? accessToken = default, CancellationToken ct = default)
+        public async Task<IList<Device>?> GetDevicesByUserAsync(string userId, CancellationToken ct = default)
         {
             logger?.LogInformation("Getting device list for user: {userId}", userId);
-            return await client.AuthenticatedRequestAsync<IList<Device>?>(HttpMethod.Get, $"/v1.0/users/{userId}/devices", accessToken, cancellationToken: ct);
+            return await client.RequestAsync<IList<Device>?>(HttpMethod.Get, $"/v1.0/users/{userId}/devices", cancellationToken: ct);
         }
 
         /// <inheritdoc />
-        public async Task<InstructionInfo?> GetDeviceInstructionsAsync(string deviceId, IAccessToken? accessToken = default, CancellationToken ct = default)
+        public async Task<InstructionInfo?> GetDeviceInstructionsAsync(string deviceId, CancellationToken ct = default)
         {
             logger?.LogInformation("Getting device instructions for device: {deviceId}", deviceId);
-            return await client.AuthenticatedRequestAsync<InstructionInfo?>(HttpMethod.Get, $"/v1.0/devices/{deviceId}/functions", accessToken, cancellationToken: ct);
+            return await client.RequestAsync<InstructionInfo?>(HttpMethod.Get, $"/v1.0/devices/{deviceId}/functions", cancellationToken: ct);
         }
 
         /// <inheritdoc />
-        public async Task<InstructionInfo?> GetDeviceInstructionsAsync(DeviceInfo device, IAccessToken? accessToken = default, CancellationToken ct = default)
+        public async Task<InstructionInfo?> GetDeviceInstructionsAsync(DeviceInfo device, CancellationToken ct = default)
         {
             logger?.LogInformation("Getting device instructions for device: {deviceId}", device.Id ?? "unknown");
             ThrowIfInvalid(device);
-            return await GetDeviceInstructionsAsync(device.Id!, accessToken, ct);
+            return await GetDeviceInstructionsAsync(device.Id!, ct);
         }
 
         /// <inheritdoc />
-        public async Task<bool> SendCommandAsync(DeviceInfo device, Command command, IAccessToken? accessToken = default, CancellationToken ct = default)
+        public async Task<bool> SendCommandAsync(DeviceInfo device, Command command, CancellationToken ct = default)
         {
             ThrowIfInvalid(device);
-            return await SendCommandAsync(device.Id!, command, accessToken, ct);
+            return await SendCommandAsync(device.Id!, command, ct);
         }
 
         /// <inheritdoc />
-        public async Task<bool> SendCommandAsync(string deviceId, Command command, IAccessToken? accessToken = default, CancellationToken ct = default)
+        public async Task<bool> SendCommandAsync(string deviceId, Command command, CancellationToken ct = default)
         {
             var commands = new List<Command>() { command };
-            return await SendCommandListAsync(deviceId, commands, accessToken, ct);
+            return await SendCommandListAsync(deviceId, commands, ct);
         }
 
         /// <inheritdoc />
-        public async Task<bool> SendCommandListAsync(DeviceInfo device, IList<Command> commands, IAccessToken? accessToken = default, CancellationToken ct = default)
+        public async Task<bool> SendCommandListAsync(DeviceInfo device, IList<Command> commands, CancellationToken ct = default)
         {
             ThrowIfInvalid(device);
-            return await SendCommandListAsync(device.Id!, commands, accessToken, ct);
+            return await SendCommandListAsync(device.Id!, commands, ct);
         }
 
         /// <inheritdoc />
-        public async Task<bool> SendCommandListAsync(string deviceId, IList<Command> commands, IAccessToken? accessToken = default, CancellationToken ct = default)
+        public async Task<bool> SendCommandListAsync(string deviceId, IList<Command> commands, CancellationToken ct = default)
         {
             logger?.LogDebug("Sending command on {deviceId}: {commands}", deviceId, commands);
-            return await client.AuthenticatedRequestAsync<bool>(HttpMethod.Post, $"/v1.0/devices/{deviceId}/commands", accessToken, JsonConvert.SerializeObject(new { commands }), cancellationToken: ct);
+            return await client.RequestAsync<bool>(HttpMethod.Post, $"/v1.0/devices/{deviceId}/commands", JsonConvert.SerializeObject(new { commands }), cancellationToken: ct);
         }
 
         /// <summary>

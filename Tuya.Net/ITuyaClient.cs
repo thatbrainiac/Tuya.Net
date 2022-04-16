@@ -30,16 +30,9 @@ namespace Tuya.Net
         /// <typeparam name="T">Object type to return.</typeparam>
         /// <param name="httpMethod">HTTP method.</param>
         /// <param name="path">API path.</param>
-        /// <param name="accessToken">Access token.</param>
         /// <param name="payload">Payload string, if present.</param>
         /// <param name="cancellationToken">Cancellation Token.</param>
         /// <returns>An instance of <see cref="T"/> containing the requested data.</returns>
-        public Task<T?> AuthenticatedRequestAsync<T>(HttpMethod httpMethod, string path, IAccessToken? accessToken, string payload = "", CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Get API access token.
-        /// </summary>
-        /// <returns>An <see cref="AccessTokenInfo"/> instance containing information about the access token.</returns>
-        public Task<AccessTokenInfo?> GetAccessTokenInfoAsync(CancellationToken ct = default);
+        public Task<T?> RequestAsync<T>(HttpMethod httpMethod, string path, string payload = "", CancellationToken cancellationToken = default);
     }
 }

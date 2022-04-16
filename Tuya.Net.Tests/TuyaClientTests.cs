@@ -2,10 +2,9 @@
 using NUnit.Framework;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging.Abstractions;
 using Tuya.Net.Data;
-using Tuya.Net.Security;
+using Tuya.Net.Data.Settings;
 
 namespace Tuya.Net.Tests
 {
@@ -29,7 +28,7 @@ namespace Tuya.Net.Tests
         /// One time setup.
         /// </summary>
         [OneTimeSetUp]
-        public async Task SetUpAsync()
+        public void SetUp()
         {
             config = new ConfigurationBuilder()
                 .AddJsonFile("Config.json", false, true)
@@ -42,8 +41,11 @@ namespace Tuya.Net.Tests
                 ClientSecret = config["TuyaClientSecret"] ?? throw new ArgumentException("Tuya Client Secret not configured! Add \"TuyaSecret\" to your secrets file.")
             };
 
-            client = await new TuyaClient(config["TuyaApiUrl"], tuyaCreds, NullLogger<TuyaClient>.Instance)
-                .WithAuthentication();
+            client = TuyaClient.GetBuilder()
+                .UsingDataCenter(DataCenter.CentralEurope)
+                .UsingCredentials(tuyaCreds)
+                .UsingLogger(NullLogger<ITuyaClient>.Instance)
+                .Build();
         }
 
         /// <summary>

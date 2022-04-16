@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Tuya.Net.Data
+﻿namespace Tuya.Net.Data
 {
     public interface IAccessToken
     {
