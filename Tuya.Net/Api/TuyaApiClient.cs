@@ -33,13 +33,13 @@ namespace Tuya.Net.Api
         /// <param name="baseUrl">The base URL of the API.</param>
         /// <param name="credentials">Tuya API credentials.</param>
         /// <param name="logger">Logger instance./</param>
-        public TuyaApiClient(string baseUrl, ITuyaCredentials credentials, ILogger? logger)
+        public TuyaApiClient(Uri baseUrl, ITuyaCredentials credentials, ILogger? logger)
         {
             this.logger = logger;
             this.credentials = credentials;
             httpClient = new HttpClient()
             {
-                BaseAddress = new Uri(baseUrl),
+                BaseAddress = baseUrl,
                 DefaultRequestHeaders =
                 {
                     { "client_id", credentials.ClientId },

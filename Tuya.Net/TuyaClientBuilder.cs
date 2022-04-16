@@ -17,7 +17,7 @@ namespace Tuya.Net
         /// <summary>
         /// Tuya credentials.
         /// </summary>
-        private ITuyaCredentials? credentials;
+        private readonly ITuyaCredentials credentials = new TuyaCredentials();
         
         /// <summary>
         /// Logger instance.
@@ -30,30 +30,37 @@ namespace Tuya.Net
         private int maxAuthRetryCount = 3;
 
         /// <inheritdoc />
-        public ITuyaClientBuilder UsingDataCenter(DataCenter dataCenter)
+        public ITuyaClientBuilder UsingDataCenter(DataCenter tuyaDataCenter)
         {
-            this.dataCenter = dataCenter;
+            dataCenter = tuyaDataCenter;
             return this;
         }
 
         /// <inheritdoc />
-        public ITuyaClientBuilder UsingCredentials(ITuyaCredentials credentials)
+        public ITuyaClientBuilder UsingClientId(string clientId)
         {
-            this.credentials = credentials;
+            credentials.ClientId = clientId;
             return this;
         }
 
         /// <inheritdoc />
-        public ITuyaClientBuilder UsingLogger(ILogger<ITuyaClient> logger)
+        public ITuyaClientBuilder UsingSecret(string clientSecret)
         {
-            this.logger = logger;
+            credentials.ClientSecret = clientSecret;
             return this;
         }
 
         /// <inheritdoc />
-        public ITuyaClientBuilder MaxAuthRetryCount(int maxAuthRetryCount)
+        public ITuyaClientBuilder UsingLogger(ILogger<ITuyaClient> clientLogger)
         {
-            this.maxAuthRetryCount = maxAuthRetryCount;
+            logger = clientLogger;
+            return this;
+        }
+
+        /// <inheritdoc />
+        public ITuyaClientBuilder MaxAuthRetryCount(int maxRetryCount)
+        {
+            maxAuthRetryCount = maxRetryCount;
             return this;
         }
 
@@ -65,9 +72,14 @@ namespace Tuya.Net
                 throw new TuyaClientBuilderException("No data center has been provided. Please provide a data center first before building the client.");
             }
 
-            if (credentials == null)
+            if (string.IsNullOrEmpty(credentials.ClientId))
             {
-                throw new TuyaClientBuilderException("No credentials have been provided. Please provide valid credentials first before building the client.");
+                throw new TuyaClientBuilderException("The client id is empty or is missing. Please specify the client id before building the client.");
+            }
+
+            if (string.IsNullOrEmpty(credentials.ClientSecret))
+            {
+                throw new TuyaClientBuilderException("The client secret is empty or is missing. Please specify the client secret before building the client.");
             }
 
             return new TuyaClient(dataCenter, credentials, maxAuthRetryCount, logger);

@@ -10,7 +10,7 @@ namespace Tuya.Net
     /// <summary>
     /// Tuya Client wrapper class.
     /// </summary>
-    public class TuyaClient : ITuyaClient
+    public sealed class TuyaClient : ITuyaClient
     {
         /// <inheritdoc />
         public ITuyaLowLevelClient LowLevel { get; }
@@ -41,7 +41,7 @@ namespace Tuya.Net
         /// <param name="baseUrl">Tuya API base url.</param>
         /// <param name="credentials">Tuya API credentials.</param>
         /// <param name="logger">Logger instance.</param>
-        private TuyaClient(string baseUrl, ITuyaCredentials credentials, ILogger<ITuyaClient>? logger = null)
+        private TuyaClient(Uri baseUrl, ITuyaCredentials credentials, ILogger<ITuyaClient>? logger = null)
         {
             this.logger = logger;
             LowLevel = new TuyaApiClient(baseUrl, credentials, logger);
@@ -118,9 +118,9 @@ namespace Tuya.Net
         /// <param name="dataCenter">Tuya data center.</param>
         /// <returns>The base URI for the provided <see cref="DataCenter"/>.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when an invalid data center has been passed.</exception>
-        private static string GetBaseUri(DataCenter dataCenter)
+        private static Uri GetBaseUri(DataCenter dataCenter)
         {
-            return dataCenter switch
+            var urlString = dataCenter switch
             {
                 DataCenter.EastUs => "https://openapi-ueaz.tuyaus.com",
                 DataCenter.WestUs => "https://openapi.tuyaus.com",
@@ -131,6 +131,7 @@ namespace Tuya.Net
                 DataCenter.Unknown => string.Empty,
                 _ => throw new ArgumentOutOfRangeException(nameof(dataCenter), dataCenter, "Invalid data center provided!")
             };
+            return new Uri(urlString);
         }
     }
 }
