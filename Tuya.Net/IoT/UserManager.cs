@@ -30,10 +30,10 @@ namespace Tuya.Net.IoT
         }
 
         /// <inheritdoc />
-        public async Task<User?> GetUserByIdAsync(string userId, IAccessToken? accessToken = default, CancellationToken ct = default)
+        public async Task<User?> GetUserByIdAsync(string userId, CancellationToken ct = default)
         {
             logger?.LogInformation("Getting user: {userId}", userId);
-            return await client.AuthenticatedRequestAsync<User?>(HttpMethod.Get, $"/v1.0/users/{userId}/infos", accessToken, cancellationToken: ct);
+            return await client.RequestAsync<User?>(HttpMethod.Get, $"/v1.0/users/{userId}/infos", cancellationToken: ct);
         }
     }
 }

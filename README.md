@@ -19,17 +19,19 @@ NuGet Package: [Tuya.Net]()
 
 Below are some examples and use cases where this library may be found useful.
 
-### Create an instance of the Tuya API Client
+### Creating an instance of the client using the builder
 ```csharp
-const string TuyaApiUrl = "https://openapi.tuyaeu.com";
 var tuyaCreds = new TuyaCredentials()
 {
-    ClientId = "your_client_id_here",
-    ClientSecret = "your_client_secret_here"
+    ClientId = "<your_client_id_here>", // replace with your actual client id
+    ClientSecret = "<your_client_secret_here>" // replace with your actual client secret
 };
 
-client = await new TuyaClient(TuyaApiUrl, tuyaCreds)
-    .WithAuthentication()
+var client = TuyaClient.GetBuilder()
+    .UsingDataCenter(DataCenter.CentralEurope)
+    .UsingCredentials(tuyaCreds)
+    .UsingLogger(NullLogger<ITuyaClient>.Instance)
+    .Build();
 ```
 
 ### Get device list for a given user ID
@@ -40,12 +42,9 @@ var devices = await client.DeviceManager.GetDevicesByUserAsync("user_id_here"));
 ```
 
 ### Toggle a lighting device depending on its status
-
 ```csharp
-
 // Retrieve the status of the lighting device to check whether the light is turned on or off.
-
-var device = await client.DeviceManager.GetDeviceAsync("lighting_device_id_here");
+var device = await client.DeviceManager.GetDeviceAsync("<lighting_device_id_here>"); // replace with your actual lighting device id
 var status = device?.StatusList?.FirstOrDefault(ds => ds.Code == "switch_led");
 
 if (status?.Value is not bool)
@@ -54,11 +53,9 @@ if (status?.Value is not bool)
 }
 
 // Get the device status (true if the light is turned on, false otherwise)
-
 var isTurnedOn = (bool)status.Value!;
 
 // Create the command to send an instruction to maniuplate the light status
-
 var command = new Command()
 {
     Code = "switch_led",
@@ -66,7 +63,6 @@ var command = new Command()
 };
 
 // Send the command and obtain the result from the server.
-
 var result = await client.DeviceManager.SendCommandAsync(device, command); // returns true if the command was executed successfully, false otherwise.
 ```
 

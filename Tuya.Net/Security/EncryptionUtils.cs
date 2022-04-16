@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
+using Tuya.Net.Data.Settings;
 
 [assembly: InternalsVisibleTo("Tuya.Net.Tests")]
 namespace Tuya.Net.Security
@@ -26,7 +27,7 @@ namespace Tuya.Net.Security
             var stringToSign = string.Join("\n", new List<string>() { method.ToString(), payload.ToSha256(), string.Empty, relativeUrl });
 
             return EncryptHmac(
-                $"{credentials.ClientId}{accessToken}{timestamp}{nonce}{stringToSign}", 
+                $"{credentials.ClientId}{accessToken}{timestamp}{nonce}{stringToSign}",
                 credentials.ClientSecret);
         }
 

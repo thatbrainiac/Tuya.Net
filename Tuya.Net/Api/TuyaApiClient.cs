@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Tuya.Net.Data;
+using Tuya.Net.Data.Settings;
 using Tuya.Net.Exceptions;
 using Tuya.Net.Security;
 
@@ -29,16 +30,16 @@ namespace Tuya.Net.Api
         /// <summary>
         /// Creates a new instance of the <see cref="TuyaApiClient"/> class.
         /// </summary>
-        /// <param name="baseAddress">Base address of the server.</param>
+        /// <param name="baseUrl">The base URL of the API.</param>
         /// <param name="credentials">Tuya API credentials.</param>
         /// <param name="logger">Logger instance./</param>
-        public TuyaApiClient(string baseAddress, ITuyaCredentials credentials, ILogger? logger)
+        public TuyaApiClient(string baseUrl, ITuyaCredentials credentials, ILogger? logger)
         {
             this.logger = logger;
             this.credentials = credentials;
             httpClient = new HttpClient()
             {
-                BaseAddress = new Uri(baseAddress),
+                BaseAddress = new Uri(baseUrl),
                 DefaultRequestHeaders =
                 {
                     { "client_id", credentials.ClientId },
