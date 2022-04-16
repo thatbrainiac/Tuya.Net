@@ -8,11 +8,11 @@
         /// <summary>
         /// Gets the Tuya client id.
         /// </summary>
-        string ClientId { get; init; }
+        string ClientId { get; set; }
 
         /// <summary>
         /// Gets the Tuya client secret.
         /// </summary>
-        string ClientSecret { get; init; }
+        string ClientSecret { get; set; }
     }
 }

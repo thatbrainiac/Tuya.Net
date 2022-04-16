@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Tuya.Net.Data.Settings;
+using Tuya.Net.Exceptions;
 
 namespace Tuya.Net
 {
@@ -16,16 +17,23 @@ namespace Tuya.Net
         public ITuyaClientBuilder UsingDataCenter(DataCenter dataCenter);
 
         /// <summary>
-        /// Specify the data center to use.
+        /// Specify the Tuya API client id.
         /// </summary>
-        /// <param name="credentials"><see cref="ITuyaCredentials"/> for authentication.</param>
+        /// <param name="clientId">The Tuya client id.</param>
         /// <returns>An <see cref="ITuyaClientBuilder"/> instance.</returns>
-        public ITuyaClientBuilder UsingCredentials(ITuyaCredentials credentials);
+        public ITuyaClientBuilder UsingClientId(string clientId);
 
         /// <summary>
-        /// Specify the data center to use.
+        /// Specify the Tuya API client secret.
         /// </summary>
-        /// <param name="logger"><see cref="DataCenter"/> where the API is located.</param>
+        /// <param name="clientSecret">The Tuya client secret.</param>
+        /// <returns>An <see cref="ITuyaClientBuilder"/> instance.</returns>
+        public ITuyaClientBuilder UsingSecret(string clientSecret);
+
+        /// <summary>
+        /// Specify the logger instance to use for logging.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
         /// <returns>An <see cref="ITuyaClientBuilder"/> instance.</returns>
         public ITuyaClientBuilder UsingLogger(ILogger<ITuyaClient> logger);
 
@@ -40,6 +48,7 @@ namespace Tuya.Net
         /// Build the instance.
         /// </summary>
         /// <returns>An <see cref="ITuyaClient"/> instance.</returns>
+        /// <exception cref="TuyaClientBuilderException">Thrown when there the client failed to build due to a missing build component.</exception>
         public ITuyaClient Build();
     }
 }

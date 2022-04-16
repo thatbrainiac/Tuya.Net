@@ -6,9 +6,9 @@
     public class TuyaCredentials : ITuyaCredentials
     {
         /// <inheritdoc />
-        public string ClientId { get; init; } = string.Empty;
+        public string ClientId { get; set; } = string.Empty;
 
         /// <inheritdoc />
-        public string ClientSecret { get; init; } = string.Empty;
+        public string ClientSecret { get; set; } = string.Empty;
     }
 }
