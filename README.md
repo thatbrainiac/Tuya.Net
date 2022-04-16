@@ -1,4 +1,4 @@
-# Tuya.Net ![build](https://github.com/thatbrainiac/Tuya.Net/actions/workflows/dotnet.yml/badge.svg)
+# Tuya.Net [![build](https://github.com/thatbrainiac/Tuya.Net/workflows/build/badge.svg)](https://github.com/thatbrainiac/Tuya.Net/actions)
 A Tuya API client library for .NET. Extend your smart home functionality.
 
 ## Prerequisites
