@@ -1,7 +1,31 @@
-# Tuya.Net [![build](https://github.com/thatbrainiac/Tuya.Net/workflows/build/badge.svg)](https://github.com/thatbrainiac/Tuya.Net/actions)
-A Tuya API client library for .NET. Extend your smart home functionality.
+<p align="center">
+  <img src="https://github.com/thatbrainiac/Tuya.Net/blob/master/Documentation/logo.png?raw=true" width=20%>
+    <br />
+    <br />
+    
+  <a href="https://github.com/thatbrainiac/Tuya.Net/actions">
+    <img src="https://github.com/thatbrainiac/Tuya.Net/workflows/build/badge.svg" alt="Build">
+  </a>
 
-## Prerequisites
+  <a href="https://github.com/thatbrainiac/Tuya.Net/issues">
+    <img src="https://img.shields.io/github/issues/thatbrainiac/Tuya.Net?color=99ccff" alt="Issues">
+  </a>
+    
+  <a href="https://github.com/thatbrainiac/Tuya.Net/stargazers">
+    <img src="https://img.shields.io/github/stars/thatbrainiac/Tuya.Net?color=ffd11a" alt="Stars">
+  </a>
+    
+  <a href="https://github.com/thatbrainiac/Tuya.Net/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/thatbrainiac/Tuya.Net?color=cc99ff" alt="License">
+  </a>
+  <br />
+  <br />
+    
+</p>
+
+Tuya.Net is a Tuya API client wrapper for .NET. Communicate with your [Tuya](https://www.tuya.com/)-powered devices from anywhere via the cloud and extend your smart home functionality by implementing your custom actions and events.
+
+# ✅ Prerequisites
 
 To use this library you must have an active account on the [Tuya developer platform](https://iot.tuya.com/) and be subscribed to the `IoT Core` and `Authorizaiton` services. Once you have access to the developer platform, you can obtain an authorization key from there.
 
@@ -11,15 +35,15 @@ Your end user account must be linked/authorized on your Tuya developer account a
 
 For more information, visit the [Tuya official documentation](https://developer.tuya.com/en/docs/iot/link-devices?id=Ka471nu1sfmkl#title-6-Link%20Tuya%20app%20account).
 
-## Installation
+# 🚀 Installation
 
 ~~NuGet Package: [Tuya.Net]()~~ Library will be available soon.
 
-## Examples
+# 📖 Examples
 
 Below are some examples on how to use this library and use cases where it may be useful.
 
-### Creating an instance of the client using the builder
+## Creating an instance of the client using the builder
 ```csharp
 var client = TuyaClient.GetBuilder()
     .UsingDataCenter(DataCenter.CentralEurope)
@@ -29,14 +53,14 @@ var client = TuyaClient.GetBuilder()
     .Build();
 ```
 
-### Get device list for a given user ID
+## Get device list for a given user ID
 
 ```csharp
 var devices = await client.DeviceManager.GetDevicesByUserAsync("<user_id_here>")); // replace with the actual end-user id that is linked to your Tuya developer account.
 /// do something..
 ```
 
-### Toggle a lighting device depending on its status
+## Toggle a lighting device depending on its status
 ```csharp
 // Retrieve the status of the lighting device to check whether the light is turned on or off.
 var device = await client.DeviceManager.GetDeviceAsync("<lighting_device_id_here>"); // replace with your actual lighting device id
@@ -61,15 +85,15 @@ var command = new Command()
 var result = await client.DeviceManager.SendCommandAsync(device, command); // returns true if the command was executed successfully, false otherwise.
 ```
 
-## Contribute
+# ❤️ Contribute
 
 Feel free to contribute to this project by creating pull requests.
 
-### Building
+## Building
 
 To build this project, you require the following:
 
-#### Using Visual Studio or Rider
+### Using Visual Studio or Rider
 - [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) or [Rider 2021.3+](https://www.jetbrains.com/rider/)
 - [.NET Core 6.0 SDK](https://dotnet.microsoft.com/en-us/download) or higher
 
@@ -77,7 +101,7 @@ To build this project, you require the following:
 
 - [.NET Core 6.0 SDK](https://dotnet.microsoft.com/en-us/download) or higher
 
-### Testing
+## Testing
 
 Integration tests are available, but some configurations must be passed first before running them. Make sure you add a valid client id and secret to your `secrets.json`:
 
@@ -87,7 +111,7 @@ dotnet user-secrets set "TuyaClientId" "YOUR_TUYA_CLIENT_ID_HERE" --project Tuya
 dotnet user-secrets set "TuyaClientSecret" "YOUR_TUYA_CLIENT_Secret_HERE" --project Tuya.Net.Tests
 ```
 
-### Naming Conventions
+## Naming Conventions
 
 Standard C# naming conventions apply, with the following exception:
 - Private fields are _NOT_ prefixed with an underscore.
