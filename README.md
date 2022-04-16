@@ -1,5 +1,5 @@
 # Tuya.Net ![build](https://github.com/thatbrainiac/Tuya.Net/actions/workflows/dotnet.yml/badge.svg)
-A Tuya API client library written for .NET 6. Extend your smart home functionality.
+A Tuya API client library for .NET. Extend your smart home functionality.
 
 ## Prerequisites
 
@@ -13,15 +13,15 @@ For more information, visit the [Tuya official documentation](https://developer.
 
 ## Installation
 
-NuGet Package: [Tuya.Net]()
+~~NuGet Package: [Tuya.Net]()~~ Library will be available soon.
 
 ## Examples
 
-Below are some examples and use cases where this library may be found useful.
+Below are some examples on how to use this library and use cases where it may be useful.
 
 ### Creating an instance of the client using the builder
 ```csharp
-var tuyaCreds = new TuyaCredentials()
+var tuyaCredentials = new TuyaCredentials()
 {
     ClientId = "<your_client_id_here>", // replace with your actual client id
     ClientSecret = "<your_client_secret_here>" // replace with your actual client secret
@@ -29,7 +29,7 @@ var tuyaCreds = new TuyaCredentials()
 
 var client = TuyaClient.GetBuilder()
     .UsingDataCenter(DataCenter.CentralEurope)
-    .UsingCredentials(tuyaCreds)
+    .UsingCredentials(tuyaCredentials)
     .UsingLogger(NullLogger<ITuyaClient>.Instance)
     .Build();
 ```
@@ -37,7 +37,7 @@ var client = TuyaClient.GetBuilder()
 ### Get device list for a given user ID
 
 ```csharp
-var devices = await client.DeviceManager.GetDevicesByUserAsync("user_id_here"));
+var devices = await client.DeviceManager.GetDevicesByUserAsync("<user_id_here>")); // replace with the actual end-user id that is linked to your Tuya developer account.
 /// do something..
 ```
 
@@ -76,11 +76,11 @@ To build this project, you require the following:
 
 #### Using Visual Studio or Rider
 - [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) or [Rider 2021.3+](https://www.jetbrains.com/rider/)
-- [.NET Core 6.0 SDK](https://dotnet.microsoft.com/en-us/download)
+- [.NET Core 6.0 SDK](https://dotnet.microsoft.com/en-us/download) or higher
 
 #### Using the Command Line
 
-- [.NET Core 6.0 SDK](https://dotnet.microsoft.com/en-us/download)
+- [.NET Core 6.0 SDK](https://dotnet.microsoft.com/en-us/download) or higher
 
 ### Testing
 
