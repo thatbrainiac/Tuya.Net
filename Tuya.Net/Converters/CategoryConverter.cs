@@ -23,6 +23,7 @@ namespace Tuya.Net.Converters
                 "cz" => DeviceCategory.Cz,
                 "dj" => DeviceCategory.Dj,
                 "pir" => DeviceCategory.Pir,
+                "infrared_ac" => DeviceCategory.AirConditioning,
                 _ => DeviceCategory.Unknown,
             };
         }

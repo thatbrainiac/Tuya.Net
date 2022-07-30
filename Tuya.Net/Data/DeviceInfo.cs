@@ -135,9 +135,10 @@ namespace Tuya.Net.Data
     [JsonConverter(typeof(CategoryConverter))]
     public enum DeviceCategory
     {
+        Unknown,
         Cz,
         Dj,
         Pir,
-        Unknown
+        AirConditioning
     }
 }
